@@ -27,7 +27,6 @@ class RosterPageParser(PageParser):
         # use the _opener to fetch a URL
         args = "?type=Roster&termcode=" + termcode + "&view=tgrid&id=" + course_id
         html_string = self._opener.open(PageParser.url + args).read()
-        # replace all of the '&' with '+' so that the parser works correctly.
         return html_string
 
     def parse(self, course_id, termcode):
