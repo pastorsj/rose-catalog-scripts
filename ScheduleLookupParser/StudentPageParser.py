@@ -75,8 +75,8 @@ def run(username, password, termcode, target_id):
     parser = StudentPageParser(username, password)
     print "Started Parsing " + termcode + " Student Information about " + target_id + " for " + username
     try:
-        instructor = parser.parse(target_id, termcode)
+        student = parser.parse(target_id, termcode)
     except:
         print "Invalid credentials to Student page (or the parser broke)"
         return
-    print instructor
+    print student
