@@ -65,8 +65,8 @@ def run(username, password, termcode, target_id):
     parser = RosterPageParser(username, password)
     print "Started Parsing " + termcode + " Roster Information about " + target_id + " for " + username
     try:
-        instructor = parser.parse(target_id, termcode)
+        roster = parser.parse(target_id, termcode)
     except:
         print "Invalid credentials to Roster page (or the parser broke)"
         return
-    print instructor
+    print roster
