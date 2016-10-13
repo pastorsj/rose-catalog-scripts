@@ -53,6 +53,7 @@ class Instructor:
             mailbox: The instructors CM box                    Example: CM 4005 
             courses: Courses being taught by the professor     Example: [CSSE463-01, CSSE483-01, CSSE483-02, CSSE491-02, CSSE491-06, CSSE495-02]
     """
+
     def __init__(self, username, name, dept, office, phone, mailbox, courses):
         self.username = username
         self.name = name

@@ -8,51 +8,28 @@ from ScheduleLookupParser import SectionPageParser
 
 username = 'pastorsj'
 password = 'L5xpsQ922ewcpk'
+term = "201720"
 
 
 def main():
     time_converter = create_time_dict()
-    # 201010, 201020, 201030, 201040, 201110, 201120, 201130, 201140, 201210, 201220, 201230, 201240, 201310, 201320, 201330, 201340, 201410, 201420, 201430, 201440, 201510, 201520, 201530, 201540, 201610, 201620, 
     terms = [201720]
     for term in terms:
         file = open('dat/Course_' + str(term) + '.json', 'r')
-        file_contents = file.read()
-        contents_dict = json.loads(file_contents)
         courses = SectionPageParser.parse(username, password, str(term))
-        parse_courses_into_json(courses, str(term), contents_dict, time_converter)
+        parse_courses_into_json(courses, str(term), time_converter)
 
-
-def parse_courses_into_json(courses, term, contents_dict, time_converter):
+def parse_courses_into_json(courses, term, time_converter):
     json_data = []
     for Section in courses:
         data = {}
-        for course in contents_dict:
-            if course['Name'] == Section.section_id:
-                data = course
-                break
-        if data == {}:
-            data['Name'] = Section.section_id
-            data['Type'] = 'Course'
-            data['CRN'] = '9999'
-            data['CreditHours'] = '4'
+        data['Name'] = Section.section_id
+        data['Type'] = 'Course'
+        data['CRN'] = '9999'
+        data['CreditHours'] = '4'
         data['Description'] = Section.title
-        print "INITIAL MEETING TIME STRING: " + Section.time
-        if 'MeetTimes' in course:
-            if course['MeetTimes'] is None:
-                data['MeetTimes'] = 'TBA'
-            elif course['MeetTimes'] != 'null' or course['MeetTimes'].strip() != '-':
-                data['MeetTimes'] = course['MeetTimes']
-            else:
-                print 'Incompatible format: ' + course['MeetTimes']
-                raise
-        else:
-            data['MeetTimes'] = convert_meeting_times(Section.time, time_converter)
-        print 'FINAL MEETING TIME STRING: ' + str(data['MeetTimes'])
-        print "================================="
-        print 'Course: ' + course['Name']
-        print 'Professor: ' + str(Section.prof_id).upper()
+        data['MeetTimes'] = convert_meeting_times(Section.time, time_converter)
         data['Instructor'] = str(Section.prof_id).upper()
-
         json_data.append(data)
     json_data = json.dumps(json_data, indent=4)
     write_to_file('new_dat/Course_' + term + '.dat', json_data)

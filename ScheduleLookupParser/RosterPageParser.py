@@ -32,12 +32,14 @@ class RosterPageParser(PageParser):
     def parse(self, course_id, termcode):
         """ Parses all of the information from a section's schedule lookup page into a roster class """
         html_string = self.__get_schedule_html(course_id, termcode)
-        search = re.search('^<TR><TD><A HREF=".*?">(.*?)</A></TD><TD>.*?</TD><TD>.*?</TD><TD><A HREF=".*?">(.*?)<', html_string, re.MULTILINE)
+        search = re.search('^<TR><TD><A HREF=".*?">(.*?)</A></TD><TD>.*?</TD><TD>.*?</TD><TD><A HREF=".*?">(.*?)<',
+                           html_string, re.MULTILINE)
         course = search.group(1)
         professor = search.group(2)
         students = re.findall('^<TR><TD><A HREF=".*?">(.*?)</A></TD>', html_string, re.MULTILINE)[1:]
         roster = Roster(course, professor, students)
         return roster
+
 
 class Roster:
     """ The is the data structure for a class section at Rose Hulman.
@@ -46,6 +48,7 @@ class Roster:
             professor: The professor's username   Example: boutell
             students: The enrolled students       Example: [barnesgl, brandegs, calleggr, ...]
     """
+
     def __init__(self, course_id, professor, students=[]):
         self.course_id = course_id
         self.professor = professor
@@ -59,6 +62,7 @@ professor: {1}
 students: {2}
         """.format(str(self.course_id), str(self.professor),
                    str(self.students)).strip()
+
 
 def run(username, password, termcode, target_id):
     """ Prints the roster for a specific class at Rose-Hulman"""

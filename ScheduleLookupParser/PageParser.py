@@ -4,6 +4,7 @@ Created on Dec 12, 2014
 '''
 import urllib2
 
+
 class PageParser:
     """ The super class for all of the Course Catalog parsers """
 
